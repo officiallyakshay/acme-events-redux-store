@@ -33,11 +33,12 @@ a {
     const { HashRouter, Link, Route}  = ReactRouterDOM;
 
     const reducer = combineReducers({
-      events: (state = [], action)=>{
-        if(action.type === 'SET_EVENT'){
-          return action.event;
+      events: (state = [], action) => {
+        if( action.type === 'SET_EVENT' ){
+          // console.log('hi', state, action.events)
+          return action.events;
         } else if ( action.type === 'CREATE_EVENT' ) {
-          return [ ...state, action.event ];
+          return [ ...state, action.events ];
         }
         return state;
       }
@@ -45,25 +46,42 @@ a {
 
     const store = createStore(reducer);
 
-    const getEvent = async() => {
-      store.dispatch({ event: (await axios.get('/api/event')).data, type: 'GET_EVENT' });
+    const fetchEvents = async() => {
+      store.dispatch({ type: 'SET_EVENT', events: (await axios.get('/api/events')).data });
     };
     const addEvent = async() => {
-      store.dispatch({event: (await axios.post('/api/event')).data , type: 'ADD_EVENT'});
+      store.dispatch({ events: (await axios.post('/api/events')).data , type: 'CREATE_EVENT' });
     };
 
-    const Home = () => {
-      
+    const Events = ({ events }) => {
+      return (
+        <ul>
+          {
+            events.map( event => console.log('hi', event.name) )
+          }
+        </ul>
+      );
     }
 
     const Nav = ({ events }) => {
         return (
           <nav>
             <Link to='/'>Home!</Link>
-            <Link to='/events'>Events ({ events.length })</Link>
+            <Link to='/events'>Events ()</Link>
           </nav>
         );
     };
+
+    const Home = () => {
+      return (
+        <h3>You've got  events!</h3>
+      )
+    }
+
+
+    // const fetchEvents = () => {
+
+    // }
 
       const connect = (Component)=> {
         class Connected extends React.Component{

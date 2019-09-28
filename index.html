@@ -42,10 +42,12 @@ a {
         return state;
       }
     })
-
-    const addEvent =() => {
-      store.dispatch(event:  , type: 'ADD_EVENT')
-    }
+    const getEvent = async() => {
+      store.dispatch({ event: (await axios.get('/api/event')).data, type: 'GET_EVENT' });
+    };
+    const addEvent = async() => {
+      store.dispatch({event: (await axios.post('/api/event')).data , type: 'ADD_EVENT'});
+    };
 
 
 

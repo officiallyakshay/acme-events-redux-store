@@ -32,32 +32,33 @@ a {
     const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route}  = ReactRouterDOM;
 
+    // const eventReducer = (state=[], action)
+
     const reducer = combineReducers({
       events: (state = [], action) => {
         if( action.type === 'SET_EVENT' ){
           // console.log('hi', state, action.events)
-          return action.events;
+          state = action.events;
         } else if ( action.type === 'CREATE_EVENT' ) {
-          return [ ...state, action.events ];
+          state = [ ...state, action.events ];
         }
         return state;
       }
     })
 
     const store = createStore(reducer);
-
     const fetchEvents = async() => {
-      store.dispatch({ type: 'SET_EVENT', events: (await axios.get('/api/events')).data });
+      store.dispatch({ type: 'SET_EVENT', events: (await axios.get('/events')).data });
     };
     const addEvent = async() => {
-      store.dispatch({ events: (await axios.post('/api/events')).data , type: 'CREATE_EVENT' });
+      store.dispatch({ events: (await axios.post('/events')).data , type: 'CREATE_EVENT' });
     };
 
     const Events = ({ events }) => {
       return (
         <ul>
           {
-            events.map( event => console.log('hi', event.name) )
+            // events.map( event => console.log('hi', event.name) )
           }
         </ul>
       );

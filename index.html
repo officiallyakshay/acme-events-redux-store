@@ -29,6 +29,26 @@ a {
     <div id='root'></div>
     <script type='text/babel'>
 
+    const { createStore, combineReducers } = Redux;
+    const { HashRouter, Link, Route}  = ReactRouterDOM;
+
+    const reducer = combineReducers({
+      events: (state = [], action)=>
+      {
+        if(action.type ==='ADD_EVENT'){
+          state = [ ...state, action.event ];
+        }
+        if( action.type ==)
+        return state;
+      }
+    })
+
+    const addEvent =() => {
+      store.dispatch(event:  , type: 'ADD_EVENT')
+    }
+
+
+
       const connect = (Component)=> {
         class Connected extends React.Component{
           constructor(){

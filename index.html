@@ -65,7 +65,7 @@ a {
         <div>
           <ul>
             {
-              events.map( event => <li key={event.id}>{event.name}<button onClick = { deleteEvent }>Delete</button></li> )
+              events.map( event => <li key={event.id}>{event.name}<button onClick = { () => deleteEvent(event) }>Delete</button></li> )
             }
           </ul>
           <button onClick = { createEvent }>Create</button>

@@ -62,11 +62,14 @@ a {
 
     const Events = ({ events }) => {
       return (
-        <ul>
-          {
-            events.map( event => <li key={event.id}>{event.name}</li> )
-          }
-        </ul>
+        <div>
+          <ul>
+            {
+              events.map( event => <li key={event.id}>{event.name}<button onClick = { deleteEvent }>Delete</button></li> )
+            }
+          </ul>
+          <button onClick = { createEvent }>Create</button>
+        </div>
       );
     }
 
@@ -85,6 +88,8 @@ a {
           return action.events;
         } else if ( action.type === 'CREATE_EVENT' ) {
           return [ ...state, action.event ];
+        } else if ( action.type === 'DELETE_EVENT' ) {
+          return state.filter(_event => _event.id !== action.event.id);
         }
         return state;
       }
@@ -97,9 +102,14 @@ a {
       store.dispatch({ type: 'SET_EVENTS', events })
     }
 
-    const createEvent = async (event) => {
-      const created = (await axios.post('/api/event')).data;
+    const createEvent = async () => {
+      const created = (await axios.post('/api/events')).data;
       store.dispatch({ type: 'CREATE_EVENT', event: created })
+    }
+
+    const deleteEvent = async (event) => {
+      await axios.delete(`/api/events/${event.id}`);
+      store.dispatch({ type: 'DELETE_EVENT', event })
     }
 
       class App extends React.Component {
